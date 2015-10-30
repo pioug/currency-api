@@ -17,22 +17,31 @@ server.connection({
   port: 3000
 });
 
+server.method('getRate', (from, to, next) => {
+  rate.scrap(from, to)
+    .then((data) => next(null, data))
+    .catch((err) => next(err));
+}, {
+    cache: {
+      expiresIn: 60 * 60 * 1000,
+      generateTimeout: 30 * 1000
+    }
+  }
+);
+
 server.route({
   method: 'GET',
   path:'/v1/currencies',
-  handler: function (request, reply) {
-    reply(currencies.list)
-      .etag(currencies.etag);
-  }
+  handler: (request, reply) => reply(currencies.list).etag(currencies.etag)
 });
 
 server.route({
   method: 'GET',
   path:'/v1/rate/{from}/{to}',
-  handler: function (request, reply) {
-    rate
-      .scrap(request.params.from, request.params.to)
-      .then(reply);
+  handler: (request, reply) => {
+    let from = request.params.from,
+      to = request.params.to;
+    server.methods.getRate(from, to, (err, result) => reply(err || result));
   },
   config: {
     cache: {
@@ -42,6 +51,6 @@ server.route({
   }
 });
 
-server.start(function () {
+server.start(function() {
   console.log('Server running at:', server.info.uri);
 });
