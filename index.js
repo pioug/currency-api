@@ -33,6 +33,12 @@ server.route({
     rate
       .scrap(request.params.from, request.params.to)
       .then(reply);
+  },
+  config: {
+    cache: {
+      privacy: 'public',
+      expiresIn: 60 * 60 * 1000
+    }
   }
 });
 
