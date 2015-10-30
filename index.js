@@ -21,7 +21,8 @@ server.route({
   method: 'GET',
   path:'/v1/currencies',
   handler: function (request, reply) {
-    reply(currencies);
+    reply(currencies.list)
+      .etag(currencies.etag);
   }
 });
 
