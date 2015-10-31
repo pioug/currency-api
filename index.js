@@ -23,7 +23,7 @@ server.method('getRate', (from, to, next) => {
     .catch((err) => next(err));
 }, {
     cache: {
-      expiresIn: 60 * 60 * 1000,
+      expiresIn: 24 * 60 * 60 * 1000,
       generateTimeout: 30 * 1000,
       staleIn: 30 * 60 * 1000,
       staleTimeout: 100
