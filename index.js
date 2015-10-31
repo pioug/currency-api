@@ -24,7 +24,9 @@ server.method('getRate', (from, to, next) => {
 }, {
     cache: {
       expiresIn: 60 * 60 * 1000,
-      generateTimeout: 30 * 1000
+      generateTimeout: 30 * 1000,
+      staleIn: 30 * 60 * 1000,
+      staleTimeout: 100
     }
   }
 );
