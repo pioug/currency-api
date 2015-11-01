@@ -33,13 +33,13 @@ server.method('getRate', (from, to, next) => {
 
 server.route({
   method: 'GET',
-  path:'/v1/currencies',
+  path:'/api/v1/currencies',
   handler: (request, reply) => reply(currencies.list).etag(currencies.etag)
 });
 
 server.route({
   method: 'GET',
-  path:'/v1/rate/{from}/{to}',
+  path:'/api/v1/rate/{from}/{to}',
   handler: (request, reply) => {
     let from = request.params.from,
       to = request.params.to;
